@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraFit Intelligence</title>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <!-- Animated Fitness Background -->
+    <div class="bg-animation" id="bg-animation">
+        <div class="watermark-bg"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="mesh-overlay"></div>
+    </div>
+
+    <!-- Onboarding Overlay -->
+    <div id="onboarding-overlay" class="onboarding-overlay active">
+        <div class="onboarding-modal glass-card">
+            <div class="onboarding-header">
+                <div class="brand-icon-large"><i data-lucide="activity"></i></div>
+                <h1 class="font-700">AuraFit Intelligence</h1>
+                <p class="text-muted mt-2 text-sm">Initialize your personalized metabolic & biometric profile to begin.
+                </p>
+            </div>
+
+            <form id="onboarding-form" class="saas-form mt-6">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="ob-name" placeholder="E.g. Alex" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Age</label><input type="number" id="ob-age" value="25" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Biological Sex</label>
+                        <select id="ob-gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Weight (kg)</label><input type="number" id="ob-weight"
+                            placeholder="75" required></div>
+                    <div class="form-group"><label>Height (cm)</label><input type="number" id="ob-height"
+                            placeholder="180" required></div>
+                </div>
+                <div class="form-group mt-2">
+                    <label>AuraFit Training Modality</label>
+                    <div class="radio-group">
+                        <label class="radio-card active"><input type="radio" name="ob-mode" value="gym" checked>
+                            <div class="radio-content" style="padding:0.75rem;"><i data-lucide="dumbbell"></i><span>Gym
+                                    / Iron</span></div>
+                        </label>
+                        <label class="radio-card"><input type="radio" name="ob-mode" value="yoga">
+                            <div class="radio-content" style="padding:0.75rem;"><i data-lucide="heart"></i><span>Yoga /
+                                    Mobility</span></div>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label>Primary Biological Objective</label>
+                    <div class="radio-group" style="flex-wrap: nowrap;">
+                        <label class="radio-card"><input type="radio" name="ob-goal" value="cut">
+                            <div class="radio-content" style="padding:0.5rem;"><span style="font-size:0.75rem;">Fat
+                                    Loss</span></div>
+                        </label>
+                        <label class="radio-card active"><input type="radio" name="ob-goal" value="maintain" checked>
+                            <div class="radio-content" style="padding:0.5rem;"><span
+                                    style="font-size:0.75rem;">Optimize</span></div>
+                        </label>
+                        <label class="radio-card"><input type="radio" name="ob-goal" value="bulk">
+                            <div class="radio-content" style="padding:0.5rem;"><span
+                                    style="font-size:0.75rem;">Hypertrophy</span></div>
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="button button-primary button-lg w-full mt-6 init-btn">
+                    <span>Initialize Core Engine</span> <i data-lucide="arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Workspace Application (Hidden until authorized) -->
+    <div class="app-layout" style="display: none; opacity: 0; transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon"><i data-lucide="activity"></i></div>
+                    <span class="font-700 tracked">AURAFIT AI</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <p class="nav-label">Core Systems</p>
+                    <ul class="nav-list" id="nav-list">
+                        <li class="nav-item active" data-target="dashboard">
+                            <i data-lucide="pie-chart"></i><span>Health Analytics</span>
+                        </li>
+                        <li class="nav-item" data-target="planner">
+                            <i data-lucide="target"></i><span>Workout Planning</span>
+                        </li>
+                        <li class="nav-item" data-target="anatomy">
+                            <i data-lucide="accessibility"></i><span>3D Muscle Anatomy</span>
+                        </li>
+                        <li class="nav-item" data-target="diet">
+                            <i data-lucide="utensils"></i><span>Diet Recommendation</span>
+                        </li>
+                        <li class="nav-item" data-target="scanner">
+                            <i data-lucide="scan-line"></i><span>Food Scanner AI</span>
+                        </li>
+                        <li class="nav-item" data-target="chatbot">
+                            <i data-lucide="sparkles"></i><span>Ria Interaction</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <p class="nav-label">User Customization</p>
+                    <ul class="nav-list">
+                        <li class="nav-item" data-target="profile">
+                            <i data-lucide="user"></i><span>Profile Data</span>
+                        </li>
+                        <li class="nav-item" data-target="preferences">
+                            <i data-lucide="sliders-horizontal"></i><span>System Settings</span>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile glow-hover">
+                    <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex" alt="User" id="sidebar-avatar">
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-name">Alex M.</span>
+                        <span class="user-plan text-neon-blue">AuraFit Pro</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <header class="topbar glass-panel">
+                <div class="breadcrumbs" id="page-title">Health Analytics</div>
+                <div class="topbar-actions">
+                    <button class="icon-button glow-hover" id="btn-notifications"><i data-lucide="bell"></i></button>
+                </div>
+            </header>
+
+            <div class="content-area">
+
+                <!-- View: Dashboard / Health Analytics -->
+                <section id="dashboard" class="view active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title glow-text" id="welcome-text">Welcome back, User</h1>
+                            <p class="page-description">Real-time physiological tracking powered by Artificial
+                                Intelligence.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid-3 mt-6">
+                        <div class="card glass-card metric-card">
+                            <div class="metric-header">
+                                <span class="metric-title">Body Mass Index</span>
+                                <div class="icon-wrapper accent-blue"><i data-lucide="scale"></i></div>
+                            </div>
+                            <div class="metric-body">
+                                <span class="metric-value font-mono" id="display-bmi">--</span>
+                                <span class="badge badge-neutral mt-2" id="bmi-status">Initializing...</span>
+                            </div>
+                        </div>
+
+                        <div class="card glass-card metric-card">
+                            <div class="metric-header">
+                                <span class="metric-title">Basal Metabolic Rate</span>
+                                <div class="icon-wrapper accent-purple"><i data-lucide="flame"></i></div>
+                            </div>
+                            <div class="metric-body">
+                                <span class="metric-value font-mono" id="display-bmr">--</span> <span
+                                    class="text-sm text-muted">kcal</span>
+                            </div>
+                        </div>
+
+                        <div class="card glass-card metric-card">
+                            <div class="metric-header">
+                                <span class="metric-title">Dynamic Energy Target</span>
+                                <div class="icon-wrapper accent-green"><i data-lucide="zap"></i></div>
+                            </div>
+                            <div class="metric-body">
+                                <span class="metric-value font-mono text-neon-green" id="display-tdee">--</span> <span
+                                    class="text-sm text-muted">kcal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card glass-card mt-6 border-glow">
+                        <div class="card-header border-b flex justify-between items-center">
+                            <h3 class="card-title">Weekly Output Analytics</h3>
+                            <span class="badge badge-primary glow-bg">Model Optimized</span>
+                        </div>
+                        <div class="card-body mt-4">
+                            <div class="grid-3 text-center">
+                                <div>
+                                    <h4 class="text-sm text-muted uppercase">Total Volume</h4>
+                                    <p class="font-mono text-neon-blue mt-1 font-600 text-xl">14,250 <span
+                                            class="text-xs text-muted">kg</span></p>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm text-muted uppercase">Active Time</h4>
+                                    <p class="font-mono text-neon-purple mt-1 font-600 text-xl">4<span
+                                            class="text-xs text-muted">h</span> 15<span
+                                            class="text-xs text-muted">m</span></p>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm text-muted uppercase">Workouts</h4>
+                                    <p class="font-mono text-neon-green mt-1 font-600 text-xl">3 <span
+                                            class="text-xs text-muted">/ 5</span></p>
+                                </div>
+                            </div>
+                            <div class="progress-track w-full mt-6">
+                                <div class="progress-fill bg-gradient-blue" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-layout mt-6" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;"
+                        id="analytics-pie-card">
+                        <div class="card glass-card border-glow" style="display: flex; flex-direction: column;">
+                            <div class="card-header border-b flex justify-between items-center">
+                                <h3 class="card-title text-xl">Nutritional Distribution Chart</h3>
+                                <i data-lucide="pie-chart" class="text-neon-purple"></i>
+                            </div>
+                            <div class="card-body mt-4 flex items-center justify-center"
+                                style="padding: 2.5rem; flex: 1;">
+                                <!-- SVG Chart -->
+                                <div class="chart-container relative" style="width: 250px; height: 250px;">
+                                    <svg viewBox="0 0 36 36" class="circular-chart"
+                                        style="width:100%; height:100%; transform: rotate(-90deg);">
+                                        <path
+                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4" />
+                                        <!-- Dashes: Dash length, Gap (Total 100) / offset moves start -->
+                                        <path id="pie-protein"
+                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            fill="none" stroke="var(--clr-neon-blue)" stroke-linecap="round"
+                                            stroke-width="4" stroke-dasharray="0, 100"
+                                            style="transition: stroke-dasharray 1s ease-out;" />
+                                        <path id="pie-carbs"
+                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            fill="none" stroke="var(--clr-neon-purple)" stroke-linecap="round"
+                                            stroke-width="4" stroke-dasharray="0, 100" stroke-dashoffset="0"
+                                            style="transition: stroke-dasharray 1s ease-out, stroke-dashoffset 1s ease-out;" />
+                                        <path id="pie-fats"
+                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            fill="none" stroke="var(--clr-neon-green)" stroke-linecap="round"
+                                            stroke-width="4" stroke-dasharray="0, 100" stroke-dashoffset="0"
+                                            style="transition: stroke-dasharray 1s ease-out, stroke-dashoffset 1s ease-out;" />
+                                    </svg>
+                                    <div
+                                        style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center;">
+                                        <span class="font-600 font-mono text-3xl glow-text"
+                                            id="pie-total-cals">--</span><br><span
+                                            class="text-xs text-muted uppercase tracking-widest mt-1 block">KCAL
+                                            Target</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card glass-card border-glow"
+                            style="display: flex; flex-direction: column; background: transparent; border: none; box-shadow: none;">
+                            <div class="card-header border-b flex justify-between items-center">
+                                <h3 class="card-title text-xl">Distribution Details</h3>
+                                <i data-lucide="list" class="text-neon-blue"></i>
+                            </div>
+                            <div class="card-body mt-4 flex items-center justify-center"
+                                style="padding: 2.5rem; flex: 1;">
+                                <!-- Legend -->
+                                <div class="chart-legend w-full"
+                                    style="padding: 2.5rem; background: transparent; border: none; box-shadow: none;">
+                                    <div class="flex justify-between items-center mb-6">
+                                        <div class="flex items-center gap-4"><span
+                                                style="width:16px;height:16px;border-radius:50%;background:var(--clr-neon-blue); box-shadow: 0 0 10px var(--clr-neon-blue);"></span><span
+                                                class="text-lg font-600" id="pie-lbl-pro">Protein</span></div><span
+                                            class="font-mono text-neon-blue text-xl" id="dash-protein">--</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-6">
+                                        <div class="flex items-center gap-4"><span
+                                                style="width:16px;height:16px;border-radius:50%;background:var(--clr-neon-purple); box-shadow: 0 0 10px var(--clr-neon-purple);"></span><span
+                                                class="text-lg font-600" id="pie-lbl-car">Carbs</span></div><span
+                                            class="font-mono text-neon-purple text-xl" id="dash-carbs">--</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-4"><span
+                                                style="width:16px;height:16px;border-radius:50%;background:var(--clr-neon-green); box-shadow: 0 0 10px var(--clr-neon-green);"></span><span
+                                                class="text-lg font-600" id="pie-lbl-fat">Fats</span></div><span
+                                            class="font-mono text-neon-green text-xl" id="dash-fats">--</span>
+                                    </div>
+                                    <div class="border-t mt-6 pt-4 text-center">
+                                        <span class="badge badge-primary glow-bg mx-auto">Allocated by Neural
+                                            Network</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- View: Workout Planning -->
+                <section id="planner" class="view"
+                    style="background-image: url('workout_bg.png'); background-size: cover; background-position: center; border-radius: var(--radius-lg); position: relative; padding: 2.5rem; margin: -2.5rem -3rem; min-height: calc(100vh - 72px);">
+                    <div
+                        style="position: absolute; inset: 0; background: rgba(236, 238, 241, 0.85); z-index: 0; backdrop-filter: blur(5px);">
+                    </div>
+                    <div style="position: relative; z-index: 1;">
+                        <div class="page-header flex justify-between items-center">
+                            <div>
+                                <h1 class="page-title glow-text">Personalized Workout Planning</h1>
+                                <p class="page-description">Synthesize a hyper-customized fitness and nutrition
+                                    architecture.</p>
+                            </div>
+                            <span class="badge badge-primary glow-bg">AI Generator Active</span>
+                        </div>
+
+                        <div class="flex-col mt-6 gap-6">
+                            <div class="form-container card glass-card border-glow"
+                                style="padding: 3rem; box-shadow: 0 15px 40px rgba(0,0,0,0.4); background: transparent; border-color: rgba(255,255,255,0.15);">
+                                <form id="health-form" class="saas-form">
+                                    <div class="form-row" style="gap: 3rem; margin-bottom: 2rem;">
+                                        <div class="form-group mb-0">
+                                            <label>Lifestyle Energy Multiplier (TDEE Modifier)</label>
+                                            <select id="activity" class="w-full"
+                                                style="padding: 1rem; font-size: 1rem;">
+                                                <option value="1.2">1.2x - Sedentary (Desk Job)</option>
+                                                <option value="1.375">1.375x - Light (1-3 days/week)</option>
+                                                <option value="1.55" selected>1.55x - Moderate (3-5 days/week)</option>
+                                                <option value="1.725">1.725x - Heavy (6-7 days/week)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label>Training Modality Designation</label>
+                                            <div class="radio-group" style="gap: 1rem;">
+                                                <label class="radio-card active"><input type="radio"
+                                                        name="training-mode" value="gym" checked>
+                                                    <div class="radio-content" style="padding:1rem; font-size:1rem;"><i
+                                                            data-lucide="dumbbell"></i><span>Gym & Iron</span></div>
+                                                </label>
+                                                <label class="radio-card"><input type="radio" name="training-mode"
+                                                        value="yoga">
+                                                    <div class="radio-content" style="padding:1rem; font-size:1rem;"><i
+                                                            data-lucide="heart"></i><span>Yoga & Flow</span></div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label>Goal Customization</label>
+                                        <div class="radio-group" id="goal-group" style="gap: 1rem;">
+                                            <label class="radio-card"><input type="radio" name="goal" value="cut">
+                                                <div class="radio-content" style="padding:1rem; font-size:1rem;"><i
+                                                        data-lucide="trending-down"></i><span>Fat Loss / Cut</span>
+                                                </div>
+                                            </label>
+                                            <label class="radio-card active"><input type="radio" name="goal"
+                                                    value="maintain" checked>
+                                                <div class="radio-content" style="padding:1rem; font-size:1rem;"><i
+                                                        data-lucide="minus"></i><span>Optimize Core</span></div>
+                                            </label>
+                                            <label class="radio-card"><input type="radio" name="goal" value="bulk">
+                                                <div class="radio-content" style="padding:1rem; font-size:1rem;"><i
+                                                        data-lucide="trending-up"></i><span>Hypertrophy Mass</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="button button-primary glow-btn w-full mt-8"
+                                        style="padding: 1rem; font-size: 1.1rem;">
+                                        <span>Synthesize Custom Plan Architecture</span><i data-lucide="cpu"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="results-container mt-6">
+                                <div id="generated-plan" class="generated-plan hidden scale-in">
+                                    <div class="card glass-card mb-6 border-glow"
+                                        style="padding: 2rem; background: transparent; border-color: rgba(255,255,255,0.15); box-shadow: none;">
+                                        <div class="card-header pb-0 flex justify-between px-0">
+                                            <h3 class="card-title text-xl">Prescribed Macronutrient Profile</h3><i
+                                                data-lucide="check-circle" class="text-neon-green"></i>
+                                        </div>
+                                        <div class="card-body px-0 mt-4">
+                                            <div class="macro-stats flex gap-6">
+                                                <div class="macro-item flex-1">
+                                                    <div class="macro-header"><span
+                                                            class="macro-name">Protein</span><span
+                                                            class="macro-val font-mono text-neon-blue text-xl"
+                                                            id="val-protein">0g</span></div>
+                                                    <div class="progress-track" style="height:8px;">
+                                                        <div class="progress-fill bg-gradient-blue" id="fill-protein">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="macro-item flex-1">
+                                                    <div class="macro-header"><span class="macro-name">Carbs</span><span
+                                                            class="macro-val font-mono text-neon-purple text-xl"
+                                                            id="val-carbs">0g</span></div>
+                                                    <div class="progress-track" style="height:8px;">
+                                                        <div class="progress-fill bg-gradient-purple" id="fill-carbs">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="macro-item flex-1">
+                                                    <div class="macro-header"><span class="macro-name">Fats</span><span
+                                                            class="macro-val font-mono text-neon-green text-xl"
+                                                            id="val-fats">0g</span></div>
+                                                    <div class="progress-track" style="height:8px;">
+                                                        <div class="progress-fill bg-gradient-green" id="fill-fats">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card glass-card" style="border:none; background:transparent;">
+                                        <h3 class="card-title mb-4 font-600 text-xl"><i data-lucide="calendar"></i>
+                                            7-Day
+                                            Operating Schedule</h3>
+                                        <div class="workout-grid grid-3" id="schedule-list"
+                                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                                            <!-- Will be injected via script.js -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="empty-planner" class="card glass-card p-8 text-center text-muted"
+                                    style="background: transparent; border-color: rgba(255,255,255,0.15);"><i
+                                        data-lucide="cpu" class="mb-4 mx-auto"
+                                        style="width: 48px; height: 48px; opacity:0.5;"></i>
+                                    <p class="text-lg">Awaiting parameter input to generate architecture.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- View: 3D Muscle Anatomy (Separated Full Body) -->
+                <section id="anatomy" class="view">
+                    <div class="page-header flex justify-between items-center">
+                        <div>
+                            <h1 class="page-title glow-text">3D Muscle Anatomy Model</h1>
+                            <p class="page-description">Interactive kinetic chain visualization mapping active muscular
+                                load.</p>
+                        </div>
+                        <div class="toggle-group bg-dark border border-gray rounded-full p-1 flex">
+                            <button
+                                class="px-4 py-1 rounded-full text-xs font-600 bg-surface text-white">Anterior</button>
+                            <button class="px-4 py-1 rounded-full text-xs font-600 text-muted">Posterior</button>
+                        </div>
+                    </div>
+
+                    <div class="card glass-card mt-6 border-glow"
+                        style="height: calc(100vh - 120px); position: relative; overflow: hidden; display: flex; box-shadow: 0 10px 40px rgba(0,0,0,0.6);">
+                        <!-- Overlay Interactive Data Panel -->
+                        <div class="anatomy-data-panel glass-card border-glow"
+                            style="position: absolute; top: 2rem; left: 2rem; z-index: 50; width: 340px; padding: 2rem; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px);">
+                            <div>
+                                <h3 class="font-600 text-neon-blue text-xl" id="muscle-title">Global Bio System</h3>
+                                <span class="badge badge-primary mt-2">Homeostasis Online</span>
+                            </div>
+                            <p class="text-sm text-muted leading-relaxed mt-4" id="muscle-desc">Full page visualization
+                                activated. Select a specific muscular node on the super-scaled 3D engine to view local
+                                kinetics and routine targets.</p>
+
+                            <div class="border-t pt-4 mt-6">
+                                <h4 class="text-xs uppercase text-muted font-600 mb-3 tracking-widest">Live Activation
+                                    Status</h4>
+                                <div class="flex justify-between text-base mb-2"><span>Pectoralis</span> <span
+                                        class="text-neon-blue font-mono">High Load</span></div>
+                                <div class="flex justify-between text-base mb-2"><span>Abs (Core)</span> <span
+                                        class="text-neon-purple font-mono">Recovered</span></div>
+                                <div class="flex justify-between text-base"><span>Quadriceps</span> <span
+                                        class="text-neon-green font-mono">Optimal</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 3D Photo-realistic Canvas (Full Page Stretch) -->
+                        <div class="anatomy-canvas relative bg-mesh overflow-hidden"
+                            style="flex: 1; display:flex; justify-content:center; align-items:center;">
+                            <!-- Abstract glowing aura behind body -->
+                            <div class="anatomy-aura" style="width: 80%; height: 100%;"></div>
+
+                            <!-- Scaled up bounding box for Full Page view -->
+                            <div style="position: relative; width: 450px; height: 700px; transform: scale(1.1);">
+                                <img id="anatomy-vis" src="male-3d.png" class="anatomy-3d-model"
+                                    style="width: 100%; height: 100%; object-fit: contain; position: absolute; top:0; left:0; filter: drop-shadow(0 0 40px rgba(0,240,255,0.6));">
+
+                                <!-- Interactive Tracking Nodes dialed identically to 450x700 scaled box -->
+                                <div class="anatomy-node" data-muscle="chestL" style="top: 21%; left: 42%;"></div>
+                                <div class="anatomy-node" data-muscle="chestR" style="top: 21%; left: 58%;"></div>
+                                <div class="anatomy-node" data-muscle="coreL"
+                                    style="top: 36%; left: 50%; transform:translate(-50%, -50%) scale(1.5);"></div>
+                                <div class="anatomy-node" data-muscle="armsL" style="top: 40%; left: 30%;"></div>
+                                <div class="anatomy-node" data-muscle="armsR" style="top: 40%; left: 70%;"></div>
+                                <div class="anatomy-node" data-muscle="legsL" style="top: 60%; left: 42%;"></div>
+                                <div class="anatomy-node" data-muscle="legsR" style="top: 60%; left: 58%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- View: Diet Recommendation System -->
+                <section id="diet" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title glow-text">Diet Recommendation System</h1>
+                            <p class="page-description">AI-curated nutritional matrices matched to your biometrics.</p>
+                        </div>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="filter-bar mt-6 flex gap-2 overflow-x-auto pb-2" id="diet-filters">
+                        <button class="chip active" data-filter="all">All Recommendations</button>
+                        <button class="chip" data-filter="protein">High Protein Engine</button>
+                        <button class="chip" data-filter="keto">Keto Matrix</button>
+                        <button class="chip" data-filter="vegan">Vegan / Plant Form</button>
+                        <button class="chip" data-filter="fast">Rapid Prep (< 15m)</button>
+                    </div>
+
+                    <div class="food-grid mt-4" id="diet-grid">
+                        <div class="food-card glass-card" data-cat="protein fast">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-blue">High Protein</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Chargrilled Chicken Bowl</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 450 kcal</span><span><i
+                                            data-lucide="clock"></i> 12 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">42g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">35g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">12g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                        <div class="food-card glass-card" data-cat="protein">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-purple">Omega-3 Core</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Atlantic Salmon Node</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 520 kcal</span><span><i
+                                            data-lucide="clock"></i> 25 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">38g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">12g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">28g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                        <div class="food-card glass-card" data-cat="vegan fast">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-green">Plant Based</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Smashed Avocado Toast</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 320 kcal</span><span><i
+                                            data-lucide="clock"></i> 5 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">10g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">30g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">18g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                        <div class="food-card glass-card" data-cat="protein">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1528207776546-384cb1119b27?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-blue">Anabolic Breakfast</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Whey Isolate Pancakes</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 380 kcal</span><span><i
+                                            data-lucide="clock"></i> 20 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">35g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">42g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">8g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                        <div class="food-card glass-card" data-cat="keto protein">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-red">Keto Matrix</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Prime Sirloin & Veggies</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 640 kcal</span><span><i
+                                            data-lucide="clock"></i> 30 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">55g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">15g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">34g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                        <div class="food-card glass-card" data-cat="fast vegan">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1490323814405-4aa634235c2e?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-green">Plant Based Fast</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Açai Berry Neural Bowl</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 220 kcal</span><span><i
+                                            data-lucide="clock"></i> 5 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">8g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">45g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">4g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                        <!-- New 7 -->
+                        <div class="food-card glass-card" data-cat="keto fast">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-red">Keto Matrix</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Spinach & Egg Scramble</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 290 kcal</span><span><i
+                                            data-lucide="clock"></i> 8 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">24g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">4g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">19g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                        <!-- New 8 -->
+                        <div class="food-card glass-card" data-cat="protein vegan">
+                            <div class="food-image"><img
+                                    src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800">
+                                <div class="food-badge bg-blue">Plant Protein</div>
+                            </div>
+                            <div class="food-content">
+                                <h3 class="food-title font-600">Quinoa Tofu Power Bowl</h3>
+                                <div class="food-meta"><span><i data-lucide="flame"></i> 410 kcal</span><span><i
+                                            data-lucide="clock"></i> 20 min</span></div>
+                                <div class="food-macros mt-3">
+                                    <div class="f-macro"><span class="f-label">P</span><span
+                                            class="f-val text-neon-blue">22g</span></div>
+                                    <div class="f-macro"><span class="f-label">C</span><span
+                                            class="f-val text-neon-purple">55g</span></div>
+                                    <div class="f-macro"><span class="f-label">F</span><span
+                                            class="f-val text-neon-green">14g</span></div>
+                                </div>
+                                <button class="button button-secondary w-full mt-4 btn-add-diet glow-hover">Ingest
+                                    Formula</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- View: Food Scanner -->
+                <section id="scanner" class="view h-full">
+                    <div class="scanner-container glass-card border-glow">
+                        <div class="scanner-header">
+                            <h3 class="card-title text-neon-blue glow-text">Aura Vision AI</h3>
+                            <p class="text-xs text-muted">Identify foods natively via Neural Network API.</p>
+                        </div>
+                        <div class="scanner-viewport" id="scanner-viewport">
+                            <div class="corner-tl target-corner"></div>
+                            <div class="corner-tr target-corner"></div>
+                            <div class="corner-bl target-corner"></div>
+                            <div class="corner-br target-corner"></div>
+                            <video id="camera-stream" autoplay playsinline class="scan-target hidden"></video>
+                            <canvas id="camera-canvas" class="scan-target hidden"></canvas>
+                            <div id="camera-error" class="hidden text-center text-muted"
+                                style="position: absolute; width:100%;"><i data-lucide="video-off"
+                                    style="width:48px;height:48px;opacity:0.2;margin:0 auto;"></i>
+                                <p class="mt-2 text-sm">Awaiting camera permissions...</p>
+                            </div>
+                            <div class="scan-laser hidden" id="scan-laser"></div>
+                            <div class="scan-overlay text-center" id="scan-prompt"><i data-lucide="focus"
+                                    class="scan-icon mb-2 pulse-anim"></i>
+                                <p>Position object for extraction</p>
+                            </div>
+                        </div>
+                        <div class="scanner-controls mt-4 text-center">
+                            <button class="button button-primary glow-btn button-lg" id="btn-scan"><i
+                                    data-lucide="camera-btn"></i> Run Neural Extraction</button>
+                        </div>
+                        <div class="scan-results hidden mt-4 glass-card" id="scan-results">
+                            <div class="scan-results-header">
+                                <h4 class="font-600 text-neon-green">Vision Analysis Complete</h4><span
+                                    class="badge badge-primary glow-bg text-xs">98.6% Match</span>
+                            </div>
+                            <div class="scan-data-grid mt-4">
+                                <div class="s-data"><span class="text-muted text-xs uppercase">Entity</span><span
+                                        class="font-600">Grilled Chicken Salad</span></div>
+                                <div class="s-data"><span class="text-muted text-xs uppercase">Energy</span><span
+                                        class="font-mono text-neon-blue font-600">340 kcal</span></div>
+                                <div class="s-data"><span class="text-muted text-xs uppercase">Protein</span><span
+                                        class="font-mono text-neon-green font-600">38g</span></div>
+                            </div>
+                            <button class="button button-secondary w-full mt-4 btn-log-macro glow-hover">Append to
+                                Database</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- View: Chatbot (RIA) -->
+                <section id="chatbot" class="view h-full">
+                    <div class="chat-interface glass-card border-glow flex flex-col h-full">
+                        <div class="chat-header flex justify-between items-center border-b pb-4">
+                            <div class="flex items-center gap-4">
+                                <div class="ria-orb-3d">
+                                    <div class="sphere"></div>
+                                    <div class="ring-x"></div>
+                                    <div class="ring-y"></div>
+                                    <div class="ring-z"></div>
+                                </div>
+                                <div>
+                                    <h3 class="card-title font-700 text-neon-blue glow-text" style="font-size:1.2rem;">
+                                        RIA</h3>
+                                    <p class="text-xs text-muted uppercase tracking-widest">Conversational Human
+                                        Interface</p>
+                                </div>
+                            </div>
+                            <div class="badge badge-primary glow-bg pulse-anim text-xs font-600 text-white border-0">
+                                <span class="w-2 h-2 rounded-full bg-white inline-block mr-1"></span> ONLINE
+                            </div>
+                        </div>
+
+                        <div class="chat-history" id="chat-history">
+                            <div class="message ai-message float-up">
+                                <div class="message-content glass-chip">
+                                    <p>Hello Alex! I am Ria, your conversational AI fitness partner. I noticed your goal
+                                        is optimization. Do you want me to generate specific diet recommendations or
+                                        talk about your routine?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-input-area border-t pt-4">
+                            <div class="chat-media-actions pb-2 flex gap-3">
+                                <!-- Hidden File Inputs for real native camera/gallery access -->
+                                <input type="file" id="ria-camera-picker" accept="image/*" capture="environment"
+                                    class="hidden">
+                                <input type="file" id="ria-image-picker" accept="image/*" class="hidden">
+
+                                <button class="icon-button glow-hover" id="ria-btn-camera" title="Open Camera"><i
+                                        data-lucide="camera"></i></button>
+                                <button class="icon-button glow-hover" id="ria-btn-image" title="Open Image Gallery"><i
+                                        data-lucide="image"></i></button>
+                                <button class="icon-button glow-hover" id="ria-btn-mic" title="Voice Message"><i
+                                        data-lucide="mic"></i></button>
+                                <div id="recording-toast"
+                                    class="hidden flex items-center gap-2 text-xs text-neon-blue font-mono uppercase tracking-widest ml-auto">
+                                    <span class="w-2 h-2 rounded-full bg-neon-blue animate-ping"></span> Recording
+                                    Audio...
+                                </div>
+                            </div>
+                            <form id="chat-form" class="chat-form flex gap-2">
+                                <input type="text" id="chat-input"
+                                    placeholder="Type biologically to Ria (e.g. 'Show weight loss plans')..."
+                                    autocomplete="off" class="flex-1 glass-input">
+                                <button type="submit" class="send-button glow-btn flex-shrink-0"><i
+                                        data-lucide="send"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Customization -->
+                <section id="profile" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title glow-text">User Customization (Profile)</h1>
+                        </div>
+                    </div>
+                    <div class="grid-layout mt-6">
+                        <div class="card glass-card p-6 border-glow flex flex-col items-center">
+                            <div class="avatar-lg glow-hover relative"><img
+                                    src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex" id="prof-avatar"
+                                    class="rounded-full w-24 h-24 border-2 border-neon-blue"></div>
+                            <h3 class="mt-4 font-700 text-xl" id="prof-name">Alex M.</h3>
+                            <button class="button button-secondary button-sm mt-6 w-full glow-hover">Update Biometric
+                                ID</button>
+                        </div>
+                        <div class="card glass-card p-6 border-glow">
+                            <form class="saas-form" style="padding:0;">
+                                <h3 class="font-600 mb-4 border-b pb-2 text-neon-blue">Personal Data Metrics</h3>
+                                <div class="form-row">
+                                    <div class="form-group"><label>First Name</label><input type="text" id="prof-fname"
+                                            value="Alex" class="glass-input"></div>
+                                    <div class="form-group"><label>Last Name</label><input type="text" value="M."
+                                            class="glass-input"></div>
+                                </div>
+                                <div class="form-group mt-4"><label>Integration Email</label><input type="email"
+                                        value="alex@aurafit.ai" class="glass-input"></div>
+                                <button type="button" class="button button-primary glow-btn mt-6 btn-save-pref">Store
+                                    Secure Data</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="preferences" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title glow-text">System Customization</h1>
+                        </div>
+                    </div>
+                    <div class="card glass-card mt-6 border-glow">
+                        <div class="card-body" style="padding: 2rem;">
+                            <div class="flex justify-between items-center mb-6 pb-6 border-b border-white-10">
+                                <div>
+                                    <h4 class="font-600 text-neon-blue">Holographic Dark UI</h4>
+                                    <p class="text-xs text-muted mt-1">Enable deep-space contrast mode.</p>
+                                </div>
+                                <button class="toggle-switch active">
+                                    <div class="toggle-knob"></div>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-center mb-6 pb-6 border-b border-white-10">
+                                <div>
+                                    <h4 class="font-600 text-neon-blue">Ria Autonomous Suggestions</h4>
+                                    <p class="text-xs text-muted mt-1">Allow Ria to interrupt and offer Diet system
+                                        recommendations.</p>
+                                </div>
+                                <button class="toggle-switch active">
+                                    <div class="toggle-knob"></div>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-600 text-neon-blue">Wearable Neural Sync</h4>
+                                    <p class="text-xs text-muted mt-1">Ingest live telemetry from Apple HealthKit.</p>
+                                </div>
+                                <button class="button button-secondary button-sm glow-hover">Initialize
+                                    Handshake</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div id="video-modal" class="onboarding-overlay" style="z-index: 10000;">
+        <div class="video-container glass-card border-glow"
+            style="width: 90%; max-width: 800px; padding: 1.5rem; position: relative;">
+            <button id="close-video" class="icon-button glow-hover"
+                style="position: absolute; top: -15px; right: -15px; background: var(--clr-bg); border-color: var(--clr-neon-blue); color: var(--clr-neon-blue); z-index: 20;"><i
+                    data-lucide="x"></i></button>
+            <h3 class="card-title text-neon-blue mb-4 font-600" id="video-title" style="font-size: 1.2rem;"><i
+                    data-lucide="video"></i> Neural Routine Protocol</h3>
+            <div
+                style="aspect-ratio: 16/9; background: #000; border-radius: var(--radius-sm); overflow: hidden; position: relative; border: 1px solid var(--clr-border);">
+                <iframe id="video-player" src="" width="100%" height="100%" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
